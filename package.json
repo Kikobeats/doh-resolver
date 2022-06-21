@@ -3,9 +3,10 @@
   "description": "DNS-over-HTTPS resolver for Node.js",
   "homepage": "https://nicedoc.io/Kikobeats/doh-resolver",
   "version": "0.0.1",
+  "main": "src/index.js",
   "author": {
-    "name": "Kiko Beats",
     "email": "josefrancisco.verdu@gmail.com",
+    "name": "Kiko Beats",
     "url": "https://kikobeats.com"
   },
   "repository": {
@@ -15,7 +16,6 @@
   "bugs": {
     "url": "https://github.com/Kikobeats/doh-resolver/issues"
   },
-  "main": "src/index.js",
   "keywords": [
     "dns",
     "doh",
@@ -23,7 +23,7 @@
     "resolver"
   ],
   "dependencies": {
-    "dns2": "~2.0.1",
+    "dns2": "github:Kikobeats/node-dns#get",
     "p-any": "~3.0.0"
   },
   "devDependencies": {
@@ -38,6 +38,7 @@
     "nano-staged": "latest",
     "npm-check-updates": "latest",
     "prettier-standard": "latest",
+    "simple-get": "latest",
     "simple-git-hooks": "latest",
     "standard": "latest",
     "standard-markdown": "latest",
@@ -46,6 +47,9 @@
   "engines": {
     "node": ">= 14"
   },
+  "files": [
+    "src"
+  ],
   "scripts": {
     "clean": "rm -rf node_modules",
     "contributors": "(git-authors-cli && finepack && git add package.json && git commit -m 'build: contributors' --no-verify) || true",
