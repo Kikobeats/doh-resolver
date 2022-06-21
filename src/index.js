@@ -1,7 +1,13 @@
 'use strict'
 
+const debug = require('debug-logfmt')('doh-resolver')
 const { DOHClient, Packet } = require('dns2')
 const pAny = require('p-any')
+
+const debugTime = (...args) => {
+  const end = require('time-span')()
+  return () => debug(...args, { duration: `${Math.round(end())}ms` })
+}
 
 class DoHResolver {
   constructor ({ servers, get }) {
@@ -22,11 +28,14 @@ class DoHResolver {
         cb(
           null,
           await pAny(
-            clients.map(client =>
-              client(domain, type).then(({ answers }) =>
+            clients.map(async (client, index) => {
+              const time = debugTime({ server: this.servers[index], domain })
+              const result = await client(domain, type).then(({ answers }) =>
                 answers.filter(r => r.type === Packet.TYPE[type])
               )
-            )
+              time()
+              return result
+            })
           )
         )
       } catch (err) {

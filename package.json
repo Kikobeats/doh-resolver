@@ -23,8 +23,10 @@
     "resolver"
   ],
   "dependencies": {
+    "debug-logfmt": "~1.0.4",
     "dns2": "github:Kikobeats/node-dns#get",
-    "p-any": "~3.0.0"
+    "p-any": "~3.0.0",
+    "time-span": "~4.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "latest",

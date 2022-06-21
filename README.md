@@ -1,6 +1,6 @@
 # doh-resolver
 
-> DNS-over-HTTPS resolver for Node.js.
+> A [DNS-over-HTTPS]([DNS-over-HTTPS](https://en.wikipedia.org/wiki/DNS_over_HTTPS)) resolver for Node.js.
 
 ![Last version](https://img.shields.io/github/tag/Kikobeats/doh-resolver.svg?style=flat-square)
 [![Coverage Status](https://img.shields.io/coveralls/Kikobeats/doh-resolver.svg?style=flat-square)](https://coveralls.io/github/Kikobeats/doh-resolver)
@@ -14,7 +14,7 @@ $ npm install doh-resolver --save
 
 ## Usage
 
-**doh-resolver** can be used as [dns.resolve4](https://nodejs.org/api/dns.html#dnsresolve4hostname-options-callback) and/or [dns.resolve6](https://nodejs.org/api/dns.html#dnsresolve6hostname-options-callback) drop-in replacement:
+It can be used as [dns.resolve4](https://nodejs.org/api/dns.html#dnsresolve4hostname-options-callback) and/or [dns.resolve6](https://nodejs.org/api/dns.html#dnsresolve6hostname-options-callback) drop-in replacement:
 
 ```js
 const DoHResolver = require('doh-resolver')
@@ -26,9 +26,9 @@ resolver.resolve4('example.com', (error, addresses) => {
 })
 ```
 
-When you specify more than one server, the result will be the fastest server into resolve the HTTP/HTTPS request.
+When you specify more than one server, the result will be the fastest HTTP request into resolve.
 
-Also, you can customize how the HTTP/HTTPS request is performed:
+Customize the request using your favorite HTTP client:
 
 ```js
 const DoHResolver = require('doh-resolver')
@@ -40,7 +40,7 @@ const resolver = new DoHResolver({
 })
 ```
 
-You can combine it with **cacheable-lookup**:
+Combine it with **cacheable-lookup** for caching lookups respecting TTL:
 
 ```js
 const CacheableLookup = require('cacheable-lookup')
@@ -56,7 +56,7 @@ https.get('https://example.com', { lookup: cacheable.lookup }, response => {
 })
 ```
 
-And also with [keyv](https://keyv.js.org/) for storing the result:
+You can store the result via [keyv](https://keyv.js.org) to maximize cache HIT:
 
 ```js
 const CacheableLookup = require('cacheable-lookup')
@@ -81,6 +81,8 @@ https.get('https://example.com', { lookup: cacheable.lookup }, response => {
   // Handle the response here
 })
 ```
+
+If you want to debug timings, pass `DEBUG=doh-resolver*` as environment variable.
 
 ## License
 
