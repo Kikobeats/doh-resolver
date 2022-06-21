@@ -80,10 +80,26 @@ test('create `AAAA` resolver that use more than one server', async t => {
   })
 })
 
-test('customize http/https client', async t => {
+test('use `simple-get` as http/https client', async t => {
   const resolver = new DoHResolver({
     servers: ['1.1.1.1', 'dns.google'],
     get: promisify(require('simple-get'))
+  })
+
+  const resolve4 = promisify(resolver.resolve4.bind(resolver))
+  const results = await resolve4('google.com', ttl)
+
+  results.forEach(({ type, ttl, address }) => {
+    t.is(type, 1)
+    t.true(isIPv4(address))
+    t.is(typeof ttl, 'number')
+  })
+})
+
+test('use `got` as http/https client', async t => {
+  const resolver = new DoHResolver({
+    servers: ['1.1.1.1', 'dns.google'],
+    get: require('got').stream
   })
 
   const resolve4 = promisify(resolver.resolve4.bind(resolver))
