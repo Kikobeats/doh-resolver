@@ -17,14 +17,14 @@ $ npm install doh-resolver --save
 ```js
 const CacheableLookup = require('cacheable-lookup')
 const DoHResolver = require('doh-resolver')
-const https = require('http');
+const https = require('http')
 
 const resolver = new DoHResolver(['1.1.1.1', 'dns.google'])
 
 const cacheableLookup = new CacheableLookup({ resolver })
 
 https.get('https://example.com', { lookup: cacheable.lookup }, response => {
-	// Handle the response here
+  // Handle the response here
 })
 ```
 

@@ -4,8 +4,8 @@
   "homepage": "https://nicedoc.io/Kikobeats/doh-resolver",
   "version": "0.0.0",
   "author": {
-    "email": "josefrancisco.verdu@gmail.com",
     "name": "Kiko Beats",
+    "email": "josefrancisco.verdu@gmail.com",
     "url": "https://kikobeats.com"
   },
   "repository": {
@@ -31,6 +31,7 @@
     "@commitlint/config-conventional": "latest",
     "ava": "latest",
     "c8": "latest",
+    "ci-publish": "latest",
     "conventional-github-releaser": "latest",
     "finepack": "latest",
     "git-authors-cli": "latest",
@@ -50,7 +51,7 @@
     "contributors": "(git-authors-cli && finepack && git add package.json && git commit -m 'build: contributors' --no-verify) || true",
     "coverage": "c8 report --reporter=text-lcov > coverage/lcov.info",
     "lint": "standard-markdown README.md && standard",
-    "postrelease": "npm run release:tags && npm run release:github && npm publish",
+    "postrelease": "npm run release:tags && npm run release:github && (ci-publish || npm publish --access=public)",
     "prerelease": "npm run update:check && npm run contributors",
     "pretest": "npm run lint",
     "release": "standard-version -a",
