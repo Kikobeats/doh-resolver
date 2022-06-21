@@ -29,7 +29,10 @@ class DoHResolver {
           null,
           await pAny(
             clients.map(async (client, index) => {
-              const time = debugTime({ server: this.servers[index], domain })
+              const time = debugTime(type, {
+                server: this.servers[index],
+                domain
+              })
               const result = await client(domain, type).then(({ answers }) =>
                 answers.filter(r => r.type === Packet.TYPE[type])
               )
