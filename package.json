@@ -24,7 +24,7 @@
   ],
   "dependencies": {
     "dns2": "~2.0.1",
-    "p-any": "~3.0.0"
+    "p-any": "~4.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "latest",
