@@ -9,7 +9,7 @@ const DoHResolver = require('..')
 const ttl = { ttl: true }
 
 test('create a `A` DoH for google', async t => {
-  const resolver = new DoHResolver({ servers: ['dns.google'] })
+  const resolver = new DoHResolver({ servers: ['8.8.8.8'] })
   const resolve4 = promisify(resolver.resolve4.bind(resolver))
   const results = await resolve4('google.com', ttl)
 
@@ -21,7 +21,7 @@ test('create a `A` DoH for google', async t => {
 })
 
 test('create a `AAAA` DoH for google', async t => {
-  const resolver = new DoHResolver({ servers: ['dns.google'] })
+  const resolver = new DoHResolver({ servers: ['8.8.8.8'] })
   const resolve6 = promisify(resolver.resolve6.bind(resolver))
   const results = await resolve6('google.com', ttl)
 
@@ -57,7 +57,7 @@ test('create a `AAAA` DoH for cloudflare', async t => {
 })
 
 test('create `A` resolver that use more than one server', async t => {
-  const resolver = new DoHResolver({ servers: ['1.1.1.1', 'dns.google'] })
+  const resolver = new DoHResolver({ servers: ['1.1.1.1', '8.8.8.8'] })
   const resolve4 = promisify(resolver.resolve4.bind(resolver))
   const results = await resolve4('google.com', ttl)
 
@@ -69,7 +69,7 @@ test('create `A` resolver that use more than one server', async t => {
 })
 
 test('create `AAAA` resolver that use more than one server', async t => {
-  const resolver = new DoHResolver({ servers: ['1.1.1.1', 'dns.google'] })
+  const resolver = new DoHResolver({ servers: ['1.1.1.1', '8.8.8.8'] })
   const resolve6 = promisify(resolver.resolve6.bind(resolver))
   const results = await resolve6('google.com', ttl)
 
@@ -82,7 +82,7 @@ test('create `AAAA` resolver that use more than one server', async t => {
 
 test('use `simple-get` as http/https client', async t => {
   const resolver = new DoHResolver({
-    servers: ['1.1.1.1', 'dns.google'],
+    servers: ['1.1.1.1', '8.8.8.8'],
     get: promisify(require('simple-get'))
   })
 
@@ -98,7 +98,7 @@ test('use `simple-get` as http/https client', async t => {
 
 test('use `got` as http/https client', async t => {
   const resolver = new DoHResolver({
-    servers: ['1.1.1.1', 'dns.google'],
+    servers: ['1.1.1.1', '8.8.8.8'],
     get: require('got').stream
   })
 

@@ -18,7 +18,7 @@ It can be used as [dns.resolve4](https://nodejs.org/api/dns.html#dnsresolve4host
 
 ```js
 const DoHResolver = require('doh-resolver')
-const resolver = new DoHResolver({ servers: ['1.1.1.1', 'dns.google'] })
+const resolver = new DoHResolver({ servers: ['1.1.1.1', '8.8.8.8'] })
 
 resolver.resolve4('example.com', (error, addresses) => {
   if (error) throw error
@@ -35,7 +35,7 @@ const DoHResolver = require('doh-resolver')
 const { promisify } = require('util')
 
 const resolver = new DoHResolver({
-  servers: ['1.1.1.1', 'dns.google'],
+  servers: ['1.1.1.1', '8.8.8.8'],
   get: promisify(require('simple-get'))
 })
 ```
@@ -47,7 +47,7 @@ const CacheableLookup = require('cacheable-lookup')
 const DoHResolver = require('doh-resolver')
 const https = require('http')
 
-const resolver = new DoHResolver({ servers: ['1.1.1.1', 'dns.google'] })
+const resolver = new DoHResolver({ servers: ['1.1.1.1', '8.8.8.8'] })
 
 const cacheableLookup = new CacheableLookup({ resolver })
 
@@ -73,7 +73,7 @@ const cache = new Keyv({
   })
 })
 
-const resolver = new DoHResolver({ servers: ['1.1.1.1', 'dns.google'] })
+const resolver = new DoHResolver({ servers: ['1.1.1.1', '8.8.8.8'] })
 
 const cacheableLookup = new CacheableLookup({ resolver, cache })
 
