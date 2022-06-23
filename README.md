@@ -49,7 +49,7 @@ const https = require('https')
 
 const resolver = new DoHResolver({ servers: ['1.1.1.1', '8.8.8.8'] })
 
-const cacheableLookup = new CacheableLookup({ resolver })
+const cacheable = new CacheableLookup({ resolver })
 
 https.get('https://example.com', { lookup: cacheable.lookup }, response => {
   // Handle the response here
@@ -75,7 +75,7 @@ const cache = new Keyv({
 
 const resolver = new DoHResolver({ servers: ['1.1.1.1', '8.8.8.8'] })
 
-const cacheableLookup = new CacheableLookup({ resolver, cache })
+const cacheable = new CacheableLookup({ resolver, cache })
 
 https.get('https://example.com', { lookup: cacheable.lookup }, response => {
   // Handle the response here
