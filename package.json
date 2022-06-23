@@ -26,7 +26,7 @@
     "debug-logfmt": "~1.0.4",
     "dns2": "~2.0.2",
     "p-any": "~3.0.0",
-    "time-span": "~4.0.0"
+    "time-span": "~5.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "latest",
