@@ -45,7 +45,7 @@ Combine it with **cacheable-lookup** for caching lookups respecting TTL:
 ```js
 const CacheableLookup = require('cacheable-lookup')
 const DoHResolver = require('doh-resolver')
-const https = require('http')
+const https = require('https')
 
 const resolver = new DoHResolver({ servers: ['1.1.1.1', '8.8.8.8'] })
 
