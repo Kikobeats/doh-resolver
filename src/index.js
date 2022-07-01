@@ -2,7 +2,6 @@
 
 const debug = require('debug-logfmt')('doh-resolver')
 const { DOHClient, Packet } = require('dns2')
-const pAny = require('p-any')
 
 const debugTime = (...args) => {
   const end = require('time-span')()
@@ -10,11 +9,12 @@ const debugTime = (...args) => {
 }
 
 class DoHResolver {
-  constructor ({ servers, get }) {
+  constructor ({ servers, get, onError = (cb, error) => cb(error.errors[0]) }) {
     this.servers = [].concat(servers)
     this.resolve4 = this.createTypeResolver('A')
     this.resolve6 = this.createTypeResolver('AAAA')
     this.get = get
+    this.onError = onError
   }
 
   getServers = () => this.servers
@@ -27,7 +27,7 @@ class DoHResolver {
       try {
         cb(
           null,
-          await pAny(
+          await Promise.any(
             clients.map(async (client, index) => {
               const time = debugTime(type, {
                 server: this.servers[index],
@@ -41,8 +41,11 @@ class DoHResolver {
             })
           )
         )
-      } catch (err) {
-        cb(err)
+      } catch (error) {
+        error.errors.forEach(({ name, code, message }) =>
+          debug.error({ name, code, message })
+        )
+        this.onError(cb, error)
       }
     }
   }

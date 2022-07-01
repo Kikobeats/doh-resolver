@@ -47,7 +47,10 @@ const CacheableLookup = require('cacheable-lookup')
 const DoHResolver = require('doh-resolver')
 const https = require('https')
 
-const resolver = new DoHResolver({ servers: ['1.1.1.1', '8.8.8.8'] })
+const resolver = new DoHResolver({
+  servers: ['1.1.1.1', '8.8.8.8'],
+  onError: cb => cb(null, [])
+})
 
 const cacheable = new CacheableLookup({ resolver })
 
@@ -73,7 +76,10 @@ const cache = new Keyv({
   })
 })
 
-const resolver = new DoHResolver({ servers: ['1.1.1.1', '8.8.8.8'] })
+const resolver = new DoHResolver({
+  servers: ['1.1.1.1', '8.8.8.8'],
+  onError: cb => cb(null, [])
+})
 
 const cacheable = new CacheableLookup({ resolver, cache })
 
