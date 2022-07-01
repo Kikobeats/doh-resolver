@@ -2,7 +2,6 @@
 
 const debug = require('debug-logfmt')('doh-resolver')
 const { DOHClient, Packet } = require('dns2')
-const pAny = require('p-any')
 
 const debugTime = (...args) => {
   const end = require('time-span')()
@@ -27,7 +26,7 @@ class DoHResolver {
       try {
         cb(
           null,
-          await pAny(
+          await Promise.any(
             clients.map(async (client, index) => {
               const time = debugTime(type, {
                 server: this.servers[index],
