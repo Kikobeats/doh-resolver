@@ -111,3 +111,27 @@ test('use `got` as http/https client', async t => {
     t.is(typeof ttl, 'number')
   })
 })
+
+test('catch error', async t => {
+  const resolver = new DoHResolver({
+    servers: ['1.1.1.1', '8.8.8.8'],
+    get: url =>
+      new Promise((resolve, reject) => {
+        const req = require('http').get(
+          'http://127.0.0.1',
+          { headers: { accept: 'application/dns-message' } },
+          resolve
+        )
+        req.on('error', reject)
+      })
+  })
+
+  const resolve4 = promisify(resolver.resolve4.bind(resolver))
+
+  await t.throwsAsync(
+    async () => {
+      await resolve4('google.com', ttl)
+    },
+    { instanceOf: AggregateError, message: 'All promises were rejected' }
+  )
+})
