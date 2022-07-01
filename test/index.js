@@ -112,18 +112,9 @@ test('use `got` as http/https client', async t => {
   })
 })
 
-test('catch error', async t => {
+test('throw an error under any underlayer problem', async t => {
   const resolver = new DoHResolver({
-    servers: ['1.1.1.1', '8.8.8.8'],
-    get: url =>
-      new Promise((resolve, reject) => {
-        const req = require('http').get(
-          'http://127.0.0.1',
-          { headers: { accept: 'application/dns-message' } },
-          resolve
-        )
-        req.on('error', reject)
-      })
+    servers: ['127.0.0.1']
   })
 
   const resolve4 = promisify(resolver.resolve4.bind(resolver))
@@ -132,6 +123,29 @@ test('catch error', async t => {
     async () => {
       await resolve4('google.com', ttl)
     },
-    { instanceOf: AggregateError, message: 'All promises were rejected' }
+    { instanceOf: Error, message: 'connect ECONNREFUSED 127.0.0.1:443' }
   )
+})
+
+test('custom error handling', async t => {
+  const CacheableLookup = require('cacheable-lookup')
+  const https = require('https')
+
+  const resolver = new DoHResolver({
+    servers: ['1.1.1.1', '8.8.8.8'],
+    get: () => new Promise((resolve, reject) => reject(new Error('oh no'))),
+    onError: cb => cb(null, [])
+  })
+
+  const cacheable = new CacheableLookup({ resolver })
+
+  const get = url =>
+    new Promise((resolve, reject) =>
+      https.get(url, { lookup: cacheable.lookup }, resolve)
+    )
+
+  const response = await get('https://example.com', {
+    lookup: cacheable.lookup
+  })
+  t.true(response instanceof require('http').IncomingMessage)
 })
