@@ -30,8 +30,7 @@
   ],
   "dependencies": {
     "debug-logfmt": "~1.0.4",
-    "dns2": "~2.0.2",
-    "time-span": "~4.0.0"
+    "dns2": "~2.0.2"
   },
   "devDependencies": {
     "@commitlint/cli": "latest",

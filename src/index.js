@@ -1,11 +1,29 @@
 'use strict'
 
 const debug = require('debug-logfmt')('doh-resolver')
-const { DOHClient, Packet } = require('dns2')
+const { DOHClient } = require('dns2')
 
-const debugTime = (...args) => {
-  const end = require('time-span')()
-  return () => debug(...args, { duration: `${Math.round(end())}ms` })
+const timestamp = (start = process.hrtime()) => () => {
+  const hrtime = process.hrtime(start)
+  const nanoseconds = hrtime[0] * 1e9 + hrtime[1]
+  return nanoseconds / 1e6
+}
+
+const createLogger = transport => (...args) => {
+  const end = timestamp()
+  return () => transport(...args, { duration: `${Math.round(end())}ms` })
+}
+
+const logger = {
+  debug: createLogger(debug),
+  info: createLogger(debug.info)
+}
+
+const measure = async (fn, props, logger) => {
+  const time = logger(props)
+  const result = await fn()
+  time()
+  return result
 }
 
 class DoHResolver {
@@ -27,18 +45,23 @@ class DoHResolver {
       try {
         cb(
           null,
-          await Promise.any(
-            clients.map(async (client, index) => {
-              const time = debugTime(type, {
-                server: this.servers[index],
-                domain
-              })
-              const result = await client(domain, type).then(({ answers }) =>
-                answers.filter(r => r.type === Packet.TYPE[type])
-              )
-              time()
-              return result
-            })
+          await measure(
+            () =>
+              Promise.any(
+                clients.map((client, index) =>
+                  measure(
+                    () => client(domain, type).then(({ answers }) => answers),
+                    {
+                      server: this.servers[index],
+                      type,
+                      domain
+                    },
+                    logger.debug
+                  )
+                )
+              ),
+            { type, domain },
+            logger.info
           )
         )
       } catch (error) {
