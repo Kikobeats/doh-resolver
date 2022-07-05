@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.2.2 (2022-07-05)
+
+
+### Bug Fixes
+
+* ensure answers only contains same type result ([c95a032](https://github.com/Kikobeats/doh-resolver/commit/c95a032a2a1e889ee2f658f7ab5bd78431ef957f))
+
 ### 1.2.1 (2022-07-05)
 
 ## [1.2.0](https://github.com/Kikobeats/doh-resolver/compare/v1.1.1...v1.2.0) (2022-07-05)
