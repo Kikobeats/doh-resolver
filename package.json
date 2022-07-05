@@ -2,7 +2,7 @@
   "name": "doh-resolver",
   "description": "DNS-over-HTTPS resolver for Node.js",
   "homepage": "https://nicedoc.io/Kikobeats/doh-resolver",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "src/index.js",
   "author": {
     "email": "josefrancisco.verdu@gmail.com",
