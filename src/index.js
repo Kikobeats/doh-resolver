@@ -17,13 +17,16 @@ const timestamp = (start = process.hrtime()) => () => {
 
 const createLogWithDuration = transport => (...args) => {
   const end = timestamp()
-  return () => transport(...args, { duration: `${Math.round(end())}ms` })
+  return result =>
+    transport(...args, JSON.stringify(result), {
+      duration: `${Math.round(end())}ms`
+    })
 }
 
 const logTime = async (fn, props, logWithDuration) => {
   const time = logWithDuration(props)
   const result = await fn()
-  time()
+  time(result)
   return result
 }
 
