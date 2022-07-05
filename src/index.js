@@ -1,7 +1,13 @@
 'use strict'
 
-const debug = require('debug-logfmt')('doh-resolver')
 const { DOHClient } = require('dns2')
+
+const loggerNoop = (() => {
+  const debug = () => {}
+  debug.info = debug
+  debug.error = debug
+  return debug
+})()
 
 const timestamp = (start = process.hrtime()) => () => {
   const hrtime = process.hrtime(start)
@@ -9,30 +15,35 @@ const timestamp = (start = process.hrtime()) => () => {
   return nanoseconds / 1e6
 }
 
-const createLogger = transport => (...args) => {
+const createLogWithDuration = transport => (...args) => {
   const end = timestamp()
   return () => transport(...args, { duration: `${Math.round(end())}ms` })
 }
 
-const logger = {
-  debug: createLogger(debug),
-  info: createLogger(debug.info)
-}
-
-const measure = async (fn, props, logger) => {
-  const time = logger(props)
+const logTime = async (fn, props, logWithDuration) => {
+  const time = logWithDuration(props)
   const result = await fn()
   time()
   return result
 }
 
 class DoHResolver {
-  constructor ({ servers, get, onError = (cb, error) => cb(error.errors[0]) }) {
+  constructor ({
+    logger = loggerNoop,
+    servers,
+    get,
+    onError = (cb, error) => cb(error.errors[0])
+  }) {
     this.servers = [].concat(servers)
     this.resolve4 = this.createTypeResolver('A')
     this.resolve6 = this.createTypeResolver('AAAA')
     this.get = get
     this.onError = onError
+    this.log = {
+      debug: createLogWithDuration(logger),
+      info: createLogWithDuration(logger.info),
+      error: logger.error
+    }
   }
 
   getServers = () => this.servers
@@ -45,28 +56,28 @@ class DoHResolver {
       try {
         cb(
           null,
-          await measure(
+          await logTime(
             () =>
               Promise.any(
                 clients.map((client, index) =>
-                  measure(
+                  logTime(
                     () => client(domain, type).then(({ answers }) => answers),
                     {
                       server: this.servers[index],
                       type,
                       domain
                     },
-                    logger.debug
+                    this.log.debug
                   )
                 )
               ),
             { type, domain },
-            logger.info
+            this.log.info
           )
         )
       } catch (error) {
         error.errors.forEach(({ name, code, message }) =>
-          debug.error({ name, code, message })
+          this.log.error({ name, code, message })
         )
         this.onError(cb, error)
       }

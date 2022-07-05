@@ -29,7 +29,6 @@
     "resolver"
   ],
   "dependencies": {
-    "debug-logfmt": "~1.0.4",
     "dns2": "~2.0.2"
   },
   "devDependencies": {

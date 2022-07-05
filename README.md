@@ -88,7 +88,16 @@ https.get('https://example.com', { lookup: cacheable.lookup }, response => {
 })
 ```
 
-If you want to debug timings, pass `DEBUG=doh-resolver*` as environment variable.
+If you want to debug timings, you can pass your own logger:
+
+```js
+const DoHResolver = require('doh-resolver')
+
+const resolver = new DoHResolver({
+  servers: ['1.1.1.1', '8.8.8.8'],
+  logger: require('debug-logfmt')('doh-resolver')
+})
+```
 
 ## License
 
