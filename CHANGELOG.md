@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/Kikobeats/doh-resolver/compare/v1.1.1...v1.2.0) (2022-07-05)
+
+
+### Features
+
+* remove debug-logfmt dependency ([dae9fc9](https://github.com/Kikobeats/doh-resolver/commit/dae9fc94c2144d52acca81ee3b1f5ba5469d18d1))
+
 ### 1.1.1 (2022-07-03)
 
 ## [1.1.0](https://github.com/Kikobeats/doh-resolver/compare/v1.0.1...v1.1.0) (2022-07-01)
