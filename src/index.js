@@ -1,6 +1,6 @@
 'use strict'
 
-const { DOHClient } = require('dns2')
+const { DOHClient, Packet } = require('dns2')
 
 const loggerNoop = (() => {
   const debug = () => {}
@@ -64,7 +64,10 @@ class DoHResolver {
               Promise.any(
                 clients.map((client, index) =>
                   logTime(
-                    () => client(domain, type).then(({ answers }) => answers),
+                    () =>
+                      client(domain, type).then(({ answers }) =>
+                        answers.filter(r => r.type === Packet.TYPE[type])
+                      ),
                     {
                       server: this.servers[index],
                       type,
