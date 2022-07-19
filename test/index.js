@@ -27,7 +27,7 @@ test('create a `AAAA` DoH for google', async t => {
 
   results.forEach(({ type, ttl, address }) => {
     t.is(type, 28)
-    t.true(isIPv6(address.replace('::::', '::')))
+    t.true(isIPv6(address))
     t.is(typeof ttl, 'number')
   })
 })
@@ -51,7 +51,7 @@ test('create a `AAAA` DoH for cloudflare', async t => {
 
   results.forEach(({ type, ttl, address }) => {
     t.is(type, 28)
-    t.true(isIPv6(address.replace('::::', '::')))
+    t.true(isIPv6(address))
     t.is(typeof ttl, 'number')
   })
 })
@@ -75,7 +75,7 @@ test('create `AAAA` resolver that use more than one server', async t => {
 
   results.forEach(({ type, ttl, address }) => {
     t.is(type, 28)
-    t.true(isIPv6(address.replace('::::', '::')))
+    t.true(isIPv6(address))
     t.is(typeof ttl, 'number')
   })
 })
