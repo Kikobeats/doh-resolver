@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.2.3 (2022-07-19)
+
+
+### Bug Fixes
+
+* ensure ipv6 is valid ([88b8b68](https://github.com/Kikobeats/doh-resolver/commit/88b8b68cff809f4333c7a2c0b4150434d79091ab))
+
 ### 1.2.2 (2022-07-05)
 
 
