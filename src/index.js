@@ -65,9 +65,20 @@ class DoHResolver {
                 clients.map((client, index) =>
                   logTime(
                     () =>
-                      client(domain, type).then(({ answers }) =>
-                        answers.filter(r => r.type === Packet.TYPE[type])
-                      ),
+                      client(domain, type).then(({ answers }) => {
+                        const result = answers.filter(
+                          r => r.type === Packet.TYPE[type]
+                        )
+                        // TODO: remove workaround after issue is resolved
+                        // https://github.com/song940/node-dns/issues/70
+                        return type === 'AAAA'
+                          ? result.map(({ address, ...opts }) =>
+                            Object.assign(opts, {
+                              address: address.replace(':::', '::')
+                            })
+                          )
+                          : result
+                      }),
                     {
                       server: this.servers[index],
                       type,
