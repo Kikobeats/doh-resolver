@@ -29,7 +29,7 @@
     "resolver"
   ],
   "dependencies": {
-    "dns2": "~2.0.3"
+    "dns2": "~2.0.4"
   },
   "devDependencies": {
     "@commitlint/cli": "latest",
