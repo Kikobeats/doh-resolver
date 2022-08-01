@@ -54,7 +54,7 @@ class DoHResolver {
   setServers = servers => (this.servers = [...servers])
 
   createTypeResolver = type => {
-    return async function (domain, options, cb) {
+    return async function (domain, cb) {
       const clients = this.servers.map(dns => DOHClient({ dns, get: this.get }))
       try {
         cb(
