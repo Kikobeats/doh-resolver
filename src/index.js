@@ -9,11 +9,8 @@ const loggerNoop = (() => {
   return debug
 })()
 
-const timestamp = (start = process.hrtime()) => () => {
-  const hrtime = process.hrtime(start)
-  const nanoseconds = hrtime[0] * 1e9 + hrtime[1]
-  return nanoseconds / 1e6
-}
+const timestamp = (start = process.hrtime.bigint()) => () =>
+  Number(process.hrtime.bigint() - start) / 1e6
 
 const createLogWithDuration = transport => (...args) => {
   const end = timestamp()
