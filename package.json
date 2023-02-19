@@ -1,7 +1,7 @@
 {
   "name": "doh-resolver",
   "description": "DNS-over-HTTPS resolver for Node.js",
-  "homepage": "https://nicedoc.io/Kikobeats/doh-resolver",
+  "homepage": "https://github.com/Kikobeats/doh-resolver",
   "version": "1.2.9",
   "main": "src/index.js",
   "author": {
@@ -59,7 +59,7 @@
   ],
   "scripts": {
     "clean": "rm -rf node_modules",
-    "contributors": "(git-authors-cli && finepack && git add package.json && git commit -m 'build: contributors' --no-verify) || true",
+    "contributors": "(npx git-authors-cli && npx finepack && git add package.json && git commit -m 'build: contributors' --no-verify) || true",
     "coverage": "c8 report --reporter=text-lcov > coverage/lcov.info",
     "lint": "standard-markdown README.md && standard",
     "postrelease": "npm run release:tags && npm run release:github && (ci-publish || npm publish --access=public)",
